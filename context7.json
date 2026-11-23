@@ -1,0 +1,13 @@
+{
+  "project": "prilojject/runpod-joycaption",
+  "title": "JoyCaption Batch Captioner",
+  "description": "Runpod Serverless worker that batch-captions images for LoRA datasets with official JoyCaption Beta One (bf16, sidecar .txt + captions.json). Headless official scripts/batch-caption.py. Built with Llama.",
+  "docs": [
+    "README.md",
+    "llms.txt",
+    "AGENTS.md",
+    "openapi.yaml"
+  ],
+  "repo": "https://github.com/prilojject/runpod-joycaption",
+  "upstream": "https://github.com/fpgaminer/joycaption"
+}

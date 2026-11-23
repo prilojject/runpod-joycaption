@@ -1,0 +1,218 @@
+{
+  "title": "JoyCaption Batch Captioner",
+  "description": "Batch-caption images for LoRA / diffusion datasets with official JoyCaption Beta One. Send a zip or a single image_url; get kohya-style sidecar .txt files plus captions.json. Headless wrapper around official scripts/batch-caption.py \u2014 no Gradio, and not a Qwen-VL listing. Built with Llama.",
+  "type": "serverless",
+  "category": "image",
+  "iconUrl": "https://raw.githubusercontent.com/prilojject/runpod-joycaption/main/.runpod/icon.png",
+  "config": {
+    "runsOn": "GPU",
+    "containerDiskInGb": 80,
+    "gpuCount": 1,
+    "gpuIds": "ADA_24,AMPERE_24,ADA_48_PRO,AMPERE_48,-NVIDIA RTX PRO 6000 Blackwell Server Edition MIG 1g.24gb,-NVIDIA RTX PRO 6000 Blackwell Server Edition MIG 2g.48gb",
+    "allowedCudaVersions": [
+      "13.4",
+      "13.3",
+      "13.2",
+      "13.1",
+      "13.0",
+      "12.9",
+      "12.8",
+      "12.7",
+      "12.6"
+    ],
+    "presets": [
+      {
+        "name": "LoRA dataset (descriptive, formal, long)",
+        "defaults": {
+          "MODE": "descriptive",
+          "MAX_NEW_TOKENS": 512,
+          "GREEDY": false,
+          "PRESET": "default"
+        }
+      },
+      {
+        "name": "Quick test (2\u20133 images, greedy)",
+        "defaults": {
+          "MODE": "descriptive",
+          "MAX_NEW_TOKENS": 256,
+          "GREEDY": true,
+          "PRESET": "quick"
+        }
+      }
+    ],
+    "env": [
+      {
+        "key": "MODEL_ID",
+        "input": {
+          "name": "Model id",
+          "type": "string",
+          "description": "Hugging Face model id. Default is official JoyCaption Beta One. Weights are public (no token) and are cached on a network volume when one is attached; they are not baked into the image.",
+          "default": "fancyfeast/llama-joycaption-beta-one-hf-llava",
+          "advanced": true
+        }
+      },
+      {
+        "key": "MODEL_REVISION",
+        "input": {
+          "name": "Model revision",
+          "type": "string",
+          "description": "Pinned weights revision (do not switch to a floating main).",
+          "default": "ebf414ea497a020da0f82df3913e5b6cb8e9663a",
+          "advanced": true
+        }
+      },
+      {
+        "key": "MODE",
+        "input": {
+          "name": "Caption mode",
+          "type": "string",
+          "description": "Official JoyCaption mode. Descriptive (formal, long) is the default and the most useful, together with Straightforward. Other official types are supported. Override per job with input.mode.",
+          "default": "descriptive",
+          "advanced": false,
+          "options": [
+            {
+              "label": "Descriptive (default)",
+              "value": "descriptive"
+            },
+            {
+              "label": "Straightforward",
+              "value": "straightforward"
+            },
+            {
+              "label": "Stable Diffusion Prompt",
+              "value": "sd_prompt"
+            },
+            {
+              "label": "MidJourney",
+              "value": "midjourney"
+            },
+            {
+              "label": "Danbooru tag list",
+              "value": "danbooru"
+            },
+            {
+              "label": "e621 tag list",
+              "value": "e621"
+            },
+            {
+              "label": "Rule34 tag list",
+              "value": "rule34"
+            },
+            {
+              "label": "Booru-like tag list",
+              "value": "booru-like"
+            },
+            {
+              "label": "Art Critic",
+              "value": "art_critic"
+            },
+            {
+              "label": "Product Listing",
+              "value": "product"
+            },
+            {
+              "label": "Social Media Post",
+              "value": "social"
+            }
+          ]
+        }
+      },
+      {
+        "key": "DATASET_URL",
+        "input": {
+          "name": "Default dataset URL",
+          "type": "string",
+          "description": "https URL of a .zip/.tar.gz of images. Usually sent per job (input.dataset_url). Sidecar .txt files are written next to each image.",
+          "default": "",
+          "advanced": false
+        }
+      },
+      {
+        "key": "IMAGE_URL",
+        "input": {
+          "name": "Default single image URL",
+          "type": "string",
+          "description": "https URL of one image. Use instead of, or together with, a dataset zip. Usually sent per job (input.image_url).",
+          "default": "",
+          "advanced": false
+        }
+      },
+      {
+        "key": "MAX_NEW_TOKENS",
+        "input": {
+          "name": "Max new tokens",
+          "type": "number",
+          "description": "Maximum caption length in tokens. 512 is the default for long descriptive captions (the official script default is 256).",
+          "default": 512,
+          "min": 1,
+          "max": 2048,
+          "advanced": false
+        }
+      },
+      {
+        "key": "GREEDY",
+        "input": {
+          "name": "Greedy decoding",
+          "type": "boolean",
+          "description": "Use greedy decoding instead of sampling (T=0.6, top-p=0.9). Convenient for smoke tests.",
+          "default": false,
+          "trueValue": "true",
+          "falseValue": "false",
+          "advanced": false
+        }
+      },
+      {
+        "key": "PRESET",
+        "input": {
+          "name": "Preset",
+          "type": "string",
+          "description": "Named defaults. 'default' is descriptive formal long (512 tokens, sampling). 'quick' is greedy with 256 tokens.",
+          "default": "default",
+          "advanced": false,
+          "options": [
+            {
+              "label": "LoRA dataset (descriptive, formal, long)",
+              "value": "default"
+            },
+            {
+              "label": "Quick test (greedy, 256 tokens)",
+              "value": "quick"
+            }
+          ]
+        }
+      },
+      {
+        "key": "HF_OUTPUT_REPO",
+        "input": {
+          "name": "Hugging Face output repo",
+          "type": "string",
+          "description": "Optional 'user/repo' to upload the captions zip + captions.json. Needs HF_TOKEN with write access.",
+          "default": "",
+          "advanced": false
+        }
+      },
+      {
+        "key": "HF_TOKEN",
+        "input": {
+          "name": "HF_TOKEN",
+          "type": "string",
+          "description": "Hugging Face token with write access, only needed for HF_OUTPUT_REPO. JoyCaption Beta One weights are public and do not need a token. Use a Runpod secret: {{ RUNPOD_SECRET_hf_token }}. Never put the token in the job input.",
+          "default": "",
+          "advanced": true
+        }
+      },
+      {
+        "key": "CAPTION_TIMEOUT_SECONDS",
+        "input": {
+          "name": "Caption watchdog (s)",
+          "type": "number",
+          "description": "Advisory timeout in seconds (0 = off). Keep below the endpoint execution timeout. A cold start may download ~15.8 GiB of public Beta One weights if no volume cache is attached.",
+          "default": 0,
+          "min": 0,
+          "max": 86400,
+          "advanced": true
+        }
+      }
+    ]
+  }
+}

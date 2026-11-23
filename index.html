@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>JoyCaption Batch Captioner for Runpod</title>
+  <meta name="description" content="Batch-caption images for LoRA datasets with official JoyCaption Beta One on Runpod Serverless. Sidecar .txt + captions.json. Built with Llama.">
+  <style>
+    :root { --bg:#0f1115; --card:#181b22; --text:#e8eaed; --muted:#9aa3b2; --accent:#7c3aed; --line:#2a2f3a; }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family: ui-sans-serif, system-ui, sans-serif; background:var(--bg); color:var(--text); line-height:1.55; }
+    main { max-width: 760px; margin: 0 auto; padding: 48px 20px 80px; }
+    h1 { font-size: 2rem; margin: 0 0 8px; }
+    p.lead { color: var(--muted); font-size: 1.1rem; }
+    a { color: #c4b5fd; }
+    .card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 20px 22px; margin: 18px 0; }
+    code, pre { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.9rem; }
+    pre { background: #0b0d11; padding: 14px 16px; border-radius: 8px; overflow: auto; }
+    ul { padding-left: 1.2rem; }
+    .links a { margin-right: 14px; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>JoyCaption Batch Captioner</h1>
+    <p class="lead">A Runpod Serverless worker that batch-captions images for LoRA / diffusion datasets with official JoyCaption Beta One and returns kohya-style sidecar <code>.txt</code> files plus <code>captions.json</code>.</p>
+    <p class="links">
+      <a href="https://github.com/prilojject/runpod-joycaption">GitHub</a>
+      <a href="https://console.runpod.io/hub/listing/prilojject/runpod-joycaption">Runpod Hub</a>
+      <a href="https://github.com/prilojject/runpod-joycaption/blob/main/README.md">README</a>
+    </p>
+    <div class="card">
+      <h2>What you send / what you get</h2>
+      <ul>
+        <li>Send a <code>dataset_url</code> to a zip of images, or a single <code>image_url</code>.</li>
+        <li>Get a sidecar <code>.txt</code> next to each image (the format kohya / the image-lora trainer expect) and a <code>captions.json</code> manifest.</li>
+        <li>Default: Descriptive, formal, long; bfloat16; ~17 GB VRAM; RTX 4090 24 GB.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h2>Not the same as</h2>
+      <ul>
+        <li><a href="https://github.com/prilojject/runpod-image-lora-trainer">Image LoRA trainer</a> — that trains a LoRA; this only writes captions.</li>
+        <li>A future Qwen-VL worker — not included in this listing.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h2>Example job</h2>
+<pre>{
+  "input": {
+    "dataset_url": "https://example.com/images.zip",
+    "mode": "descriptive",
+    "tone": "formal",
+    "length": "long"
+  }
+}</pre>
+    </div>
+    <p>Worker code is MIT. Upstream JoyCaption code is Apache-2.0. <strong>Built with Llama.</strong> The Beta One weights are licensed under the Llama 3.1 Community License, Copyright © Meta Platforms, Inc. All Rights Reserved. Headless official <code>scripts/batch-caption.py</code> — no Gradio in the worker.</p>
+  </main>
+</body>
+</html>

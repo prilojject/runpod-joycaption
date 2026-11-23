@@ -1,0 +1,30 @@
+# prilojject/runpod-joycaption
+
+> Runpod Serverless worker that batch-captions images for LoRA / diffusion datasets with official JoyCaption Beta One (bf16, ~17 GB VRAM, default GPU RTX 4090 24 GB). Input: image_url and/or a zip of images. Output: kohya-style sidecar .txt next to each image plus captions.json. Headless wrapper around official scripts/batch-caption.py. Gradio is never started. This is not runpod-image-lora-trainer and not a Qwen-VL worker.
+
+Built with Llama. The Beta One weights are licensed under the Llama 3.1 Community License, Copyright © Meta Platforms, Inc. All Rights Reserved. The worker code is MIT. Upstream JoyCaption code is Apache-2.0, pinned to SHA 8445b2e55db7856d522e44ae84e7415fcf3413f6. Weights: fancyfeast/llama-joycaption-beta-one-hf-llava @ ebf414ea497a020da0f82df3913e5b6cb8e9663a (~15.8 GiB, public, not baked into the image, cached on /runpod-volume/joycaption/models/).
+
+## Docs
+
+- README.md — what you send/get, defaults, modes, license, FAQ
+- AGENTS.md — constraints for automated changes
+- openapi.yaml — job input / output schema
+- NOTICE — MIT vs Apache-2.0 vs Llama 3.1 Community License
+- LLAMA_LICENSE / LLAMA_USE_POLICY.md — weight license (includes the 700M MAU threshold)
+- examples/SOURCES.md — public-domain NASA sources for tiny_images.zip
+
+## Default job
+
+```json
+{
+  "input": {
+    "dataset_url": "https://example.com/images.zip",
+    "mode": "descriptive",
+    "tone": "formal",
+    "length": "long"
+  }
+}
+```
+
+Default prompt: "Write a long descriptive caption for this image in a formal tone."
+refresh_worker is false so the model stays in memory. Do not accept tokens in the job input.

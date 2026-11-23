@@ -1,0 +1,38 @@
+This worker (prilojject/runpod-joycaption) is licensed under the MIT License.
+That license covers the worker code in this repository. It does **not** cover
+the JoyCaption Beta One model weights.
+
+Upstream code
+-------------
+This worker wraps official scripts/batch-caption.py from
+fpgaminer/joycaption (Apache License 2.0, © 2024 fpgaminer@bitcoin-mining.com),
+pinned to SHA 8445b2e55db7856d522e44ae84e7415fcf3413f6:
+https://github.com/fpgaminer/joycaption
+
+The official upstream LICENSE is copied at LICENSE.upstream. Prompt templates
+and Extra Options copied into src/prompts.py from gradio-app/app.py and the
+upstream README on that SHA remain Apache-2.0.
+
+Weights (not MIT)
+-----------------
+JoyCaption Beta One weights are downloaded at runtime from the public Hugging
+Face catalog fancyfeast/llama-joycaption-beta-one-hf-llava (revision
+ebf414ea497a020da0f82df3913e5b6cb8e9663a). They are **not** baked into the
+image and are **not** MIT or Apache licensed.
+
+Built with Llama.
+
+Llama 3.1 is licensed under the Llama 3.1 Community License, Copyright © Meta Platforms, Inc. All Rights Reserved.
+
+Copies of that license and the acceptable-use policy are shipped as
+LLAMA_LICENSE and LLAMA_USE_POLICY.md. The Community License includes a
+700 million monthly active user (MAU) threshold: if you (or your affiliate)
+exceed that threshold, you need a separate license from Meta. That threshold
+is not relevant to this listing itself.
+
+Do not describe these weights as MIT-licensed, unrestricted, or free of conditions.
+
+Example images
+--------------
+examples/datasets/tiny_images.zip contains three small public-domain NASA
+photographs. Sources and licenses are documented in examples/SOURCES.md.

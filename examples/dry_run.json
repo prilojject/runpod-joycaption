@@ -1,0 +1,10 @@
+{
+  "input": {
+    "dataset_url": "https://raw.githubusercontent.com/prilojject/runpod-joycaption/main/examples/datasets/tiny_images.zip",
+    "mode": "descriptive",
+    "tone": "formal",
+    "length": "long",
+    "dry_run": true,
+    "run_name": "dry-run"
+  }
+}

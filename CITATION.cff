@@ -1,0 +1,33 @@
+cff-version: 1.2.0
+title: JoyCaption Batch Captioner for Runpod Serverless
+message: If you use this worker, please cite it, upstream JoyCaption, and Llama 3.1.
+type: software
+authors:
+  - name: prilojject
+license: MIT
+repository-code: https://github.com/prilojject/runpod-joycaption
+url: https://prilojject.github.io/runpod-joycaption/
+abstract: >-
+  A Runpod Serverless worker that batch-captions images for LoRA / diffusion
+  datasets with official JoyCaption Beta One (bf16, sidecar .txt + captions.json).
+  Built with Llama.
+keywords:
+  - joycaption
+  - image-captioning
+  - lora
+  - runpod
+  - serverless
+  - llama
+references:
+  - type: software
+    title: JoyCaption
+    authors:
+      - name: fpgaminer
+    repository-code: https://github.com/fpgaminer/joycaption
+    license: Apache-2.0
+  - type: software
+    title: llama-joycaption-beta-one-hf-llava
+    authors:
+      - name: fancyfeast
+    url: https://huggingface.co/fancyfeast/llama-joycaption-beta-one-hf-llava
+    notes: Licensed under the Llama 3.1 Community License. Built with Llama.
