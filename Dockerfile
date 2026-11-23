@@ -47,18 +47,19 @@ ENV PATH=/opt/venv/bin:$PATH
 # Stage 1: official torch 2.7.1+cu128 from download.pytorch.org (allowed stand-in for
 # the upstream pin of torch==2.7.0). torchvision is required by batch-caption.py.
 # Stage 2: official JoyCaption requirements (transformers 4.51.3, accelerate 1.6.0,
-# pillow 11.2.1, triton 3.3.0). Do not upgrade transformers or torch after this.
+# pillow 11.2.1). Do not upgrade transformers or torch after this.
+# Triton: upstream requirements pin 3.3.0, but torch 2.7.1+cu128 requires triton 3.3.1.
+# Keep the triton that ships with torch; do not force 3.3.0.
 WORKDIR ${JOYCAPTION_DIR}
 RUN pip install --upgrade pip \
     && pip install torch==2.7.1+cu128 torchvision==0.22.1+cu128 torchaudio==2.7.1+cu128 \
         --index-url https://download.pytorch.org/whl/cu128 \
     && python -m pip freeze | grep -iE '^(torch|torchvision|torchaudio|triton|nvidia-[a-z0-9-]+)==' > /tmp/constraints.txt \
-    && cat /tmp/constraints.txt \
-    && python -m pip install \
+    && cat /tmp/constraints.txt
+RUN python -m pip install \
         transformers==4.51.3 \
         accelerate==1.6.0 \
         pillow==11.2.1 \
-        triton==3.3.0 \
         -c /tmp/constraints.txt \
     && python -m pip freeze | grep -iE '^(torch|torchvision|torchaudio|triton|nvidia-[a-z0-9-]+)==' > /tmp/constraints.txt
 
